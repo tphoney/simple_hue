@@ -1,5 +1,7 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
+gem 'rubocop'
+
 group :acceptance do
   gem 'beaker-puppet_install_helper'
   gem 'rake'

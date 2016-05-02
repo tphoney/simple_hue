@@ -9,16 +9,16 @@ class Puppet::Util::NetworkDevice::Hue::Device
   def initialize(url, options = {})
     @autoloader = Puppet::Util::Autoload.new(
       self,
-      "puppet/util/network_device/transport"
+      'puppet/util/network_device/transport'
     )
-    if @autoloader.load("hue")
-      @transport = Puppet::Util::NetworkDevice::Transport::Hue.new(url,options[:debug])
+    if @autoloader.load('hue')
+      @transport = Puppet::Util::NetworkDevice::Transport::Hue.new(url, options[:debug])
     end
   end
 
   def facts
     @facts ||= Puppet::Util::NetworkDevice::Hue::Facts.new(@transport)
 
-    return @facts.retrieve
+    @facts.retrieve
   end
 end

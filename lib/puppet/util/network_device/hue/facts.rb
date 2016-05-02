@@ -1,7 +1,6 @@
 require 'puppet/util/network_device/hue'
 
 class Puppet::Util::NetworkDevice::Hue::Facts
-
   attr_reader :transport
   def initialize(transport)
     @transport = transport
@@ -10,5 +9,4 @@ class Puppet::Util::NetworkDevice::Hue::Facts
   def retrieve
     facts = {}
   end
-
 end
