@@ -1,0 +1,13 @@
+{
+  "name": "simple_hue",
+  "version": "0.1.0",
+  "author": "tphoney",
+  "summary": "A puppet module that controls the philips hue. It is designed for teaching purposes.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/tphoney/basic_hue.git",
+  "project_page": "https://github.com/tphoney/simple_hue",
+  "issues_url": "https://github.com/tphoney/simple_hue/issues",
+  "dependencies": [
+  
+  ]
+}
