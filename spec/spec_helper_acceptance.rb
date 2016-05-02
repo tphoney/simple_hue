@@ -36,8 +36,6 @@ EOS
         on master, puppet('plugin','download','--server',master.to_s)
         on master, puppet('device','-v','--waitforcert','0','--user','root','--server',master.to_s), {:acceptable_exit_codes => [0,1] }
         on master, puppet('cert','sign', hue_hostname), {:acceptable_exit_codes => [0,24] }
-      #  on(host, "service puppetmaster restart")
-      #  sleep 5
         site_pp=<<-EOS
 node '#{hue_hostname}' {
   hue_light { '1':
