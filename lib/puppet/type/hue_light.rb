@@ -1,6 +1,4 @@
 Puppet::Type.newtype(:hue_light) do
-  apply_to_device
-
   newparam(:name) do
     desc 'The light name'
     isnamevar
@@ -8,5 +6,13 @@ Puppet::Type.newtype(:hue_light) do
 
   newproperty(:on) do
     desc 'is the light on'
+  end
+
+  newproperty(:ip) do
+    desc 'ip of the hue_hub'
+  end
+
+  newproperty(:developer_key) do
+    desc 'developer key'
   end
 end

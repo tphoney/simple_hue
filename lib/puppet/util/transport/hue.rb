@@ -1,8 +1,7 @@
-require 'puppet/util/network_device'
-require 'puppet/util/network_device/transport'
-require 'puppet/util/network_device/transport/base'
+require 'puppet/util/transport'
+require 'puppet/util/transport/base'
 
-class Puppet::Util::NetworkDevice::Transport::Hue < Puppet::Util::NetworkDevice::Transport::Base
+class Puppet::Util::Transport::Hue < Puppet::Util::Transport::Base
   attr_reader :connection
 
   def initialize(url, _options = {})
