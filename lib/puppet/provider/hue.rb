@@ -1,7 +1,6 @@
-require 'puppet/util/network_device/hue'
-require 'puppet/util/network_device/transport/hue'
 require 'json'
-
+require 'uri'
+require 'faraday'
 # This is the base class on which other providers are based.
 
 class Puppet::Provider::Hue < Puppet::Provider
@@ -28,18 +27,31 @@ class Puppet::Provider::Hue < Puppet::Provider
     @property_hash[:ensure] == :present
   end
 
-  def self.transport
-    if Puppet::Util::NetworkDevice.current
-      # we are in `puppet device`
-      Puppet::Util::NetworkDevice.current.transport
-    else
-      # we are in `puppet resource`
-      Puppet::Util::NetworkDevice::Transport::Hue.new(Facter.value(:url))
-    end
-  end
-
   def self.connection
-    transport.connection
+    if ENV['HUE_IP'].nil?
+      hue_ip = '10.64.12.130'
+    else
+      hue_ip = ENV['HUE_IP']
+    end
+    if ENV['HUE_KEY'].nil?
+      hue_key = 'FuTWCAwnFqxVSza243gcP-g71U1jZZAeg-iXyH3v'
+    else
+      hue_key = ENV['HUE_KEY']
+    end
+    @connection = Faraday.new(:url => "http://#{hue_ip}/api/#{hue_key}", :ssl => { :verify => false }) do |builder|
+    #@connection = Faraday.new(:url => 'http://192.168.0.2/api/AVsa-nKtZOlssVKhBwM9MBVTVVUo11nSsGQPIm55', :ssl => { :verify => false }) do |builder|
+      builder.request :retry,         :max => 10,
+                                      :interval            => 0.05,
+                                      :interval_randomness => 0.5,
+                                      :backoff_factor      => 2,
+                                      :exceptions          => [
+                                        Faraday::Error::TimeoutError,
+                                        Faraday::ConnectionFailed,
+                                        Errno::ETIMEDOUT,
+                                        'Timeout::Error',
+                                      ]
+      builder.adapter :net_http
+    end
   end
 
   def self.call(url, args = nil)
