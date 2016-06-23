@@ -9,7 +9,7 @@ describe 'should set the hue_light' do
   it 'turn the light off' do
     pp = <<-EOS
 hue_light { '1':
-  on => 'off',
+  on => 'true',
 }
 EOS
     apply_manifest(pp, :catch_failures => true)
