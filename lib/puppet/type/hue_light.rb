@@ -8,11 +8,7 @@ Puppet::Type.newtype(:hue_light) do
     desc 'is the light on'
   end
 
-  newproperty(:ip) do
-    desc 'ip of the hue_hub'
-  end
-
-  newproperty(:developer_key) do
-    desc 'developer key'
+  newproperty(:hue) do
+    desc 'hue of the hue_light'
   end
 end
