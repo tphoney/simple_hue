@@ -5,8 +5,8 @@ require 'beaker/puppet_install_helper'
 require 'beaker/testmode_switcher/dsl'
 
 run_puppet_install_helper
-hue_ip = '192.168.0.14'
-hue_key = 'AVsa-nKtZOlssVKhBwM9MBVTVVUo11nSsGQPIm55'
+hue_ip = ENV['HUE_IP']
+hue_key = ENV['HUE_KEY']
 
 RSpec.configure do |c|
   c.before :suite do
@@ -17,12 +17,17 @@ RSpec.configure do |c|
           on(host, 'apt-get install -y vim')
           on(host, 'gem install faraday')
           on(host, 'gem install pry')
+        on(host, "echo HUE_KEY=#{hue_key} >> /root/.bashrc")
+        on(host, "echo HUE_IP=#{hue_ip} >>  /root/.bashrc")
+        on(host, "source  /root/.bashrc")
+        on(host, ".  /root/.bashrc")
         end
       end
 
       proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
       hosts.each do |host|
         install_dev_puppet_module_on(host, :source => proj_root, :module_name => 'hue', :target_module_path => '/etc/puppet/modules')
+        on(host, "whoami; pwd; echo $HUE_IP")
         apply_manifest("include hue")
       end
     end

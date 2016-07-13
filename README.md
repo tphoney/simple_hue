@@ -33,32 +33,15 @@ Find the IP / hostname of your hue hub. Use a uPNP scanner, Nmap, your router / 
 
 ## Usage
 Your puppet config files should look something like:
-/etc/puppet/manifests/site.pp
-node 'hampton' {
+puppet apply example.pp
 hue_light { '1':
-  on        => 'false',
+  on  => 'true',
+  hue => '0',
 }
-}
-
-/etc/puppet/device.conf
-[hampton]
-  type hue
-  url http://192.168.0.14/api/AVsa-nKtZOlssVKhBwM9MBVTVVUo11nSsGQPIm55
-
-/etc/hosts
-192.168.0.14 hampton
-
-### Certs
-Setup your certs for puppet to talk to your hue hub. EG:
-
-puppet plugin download --server huemaster
-puppet device -v --waitforcert 0 --user root --server huemaster
-puppet cert sign hampton
-puppet device -v --user root --server huemaster
 
 ### Query the hue hub
 Run the following
-FACTER_url=http://192.168.0.14/api/AVsa-nKtZOlssVKhBwM9MBVTVVUo11nSsGQPIm55 puppet resource hue_light
+puppet resource hue_light
 
 ## Reference
 - All API calls are made using the ruby faraday library.
