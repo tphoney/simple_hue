@@ -12,10 +12,10 @@ hue_light { '1':
 EOS
     Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
     result = Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
-    # need to fix idempotency
-    # expect(result.exit_code).to eq 0
+    # Are we idempotent
+    expect(result.exit_code).to eq 0
 
-    # check puppet resource
+    # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
     expect(result.stdout).to match(/hue => '0'/)
     expect(result.stdout).to match(/on  => 'true'/)
@@ -29,7 +29,10 @@ hue_light { '1':
 EOS
     Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
     result = Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
-    # check puppet resource
+    # Are we idempotent
+    expect(result.exit_code).to eq 0
+
+    # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
     expect(result.stdout).to match(/hue => '46920'/)
   end

@@ -14,9 +14,8 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
 
     lights.each do |light|
       instances << new(:name => light.first,
-                       :on => light.last['state']['on'],
-
-                       :hue => light.last['state']['hue'])
+                       :on => light.last['state']['on'].to_s,
+                       :hue => light.last['state']['hue'].to_s)
     end
 
     instances
