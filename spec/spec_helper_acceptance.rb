@@ -8,6 +8,17 @@ run_puppet_install_helper
 hue_ip = ENV['HUE_IP']
 hue_key = ENV['HUE_KEY']
 
+def beaker_opts
+  @env ||= {
+      debug: true,
+      trace: true,
+      environment: {
+        'HUE_IP' => ENV['HUE_IP'],
+        'HUE_KEY' => ENV['HUE_KEY'],
+      }
+    }
+end
+
 RSpec.configure do |c|
   c.before :suite do
     unless ENV['BEAKER_TESTMODE'] == 'local'
