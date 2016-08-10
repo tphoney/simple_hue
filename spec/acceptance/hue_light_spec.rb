@@ -2,27 +2,35 @@ require 'spec_helper_acceptance'
 hue_ip = ENV['HUE_IP']
 hue_key = ENV['HUE_KEY']
 
-describe 'should set the hue_light to off and should be idempotent' do
-  # turn the light on before testing
-  it 'turn the light off' do
+describe 'should change the hue_light' do
+  it 'turn the light on and set hue to red' do
     pp = <<-EOS
 hue_light { '1':
-  on => 'false',
+  hue => '0',
+  on  => 'true',
 }
 EOS
-    apply_manifest(pp, {:catch_failures => true,"HUE_IP"=>"#{hue_ip}", "HUE_KEY"=>"#{hue_key}"})
-    apply_manifest(pp, {:catch_failures => true,"HUE_IP"=>"#{hue_ip}", "HUE_KEY"=>"#{hue_key}"})
+    Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
+    result = Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
+    # need to fix idempotency
+    # expect(result.exit_code).to eq 0
+
+    # check puppet resource
+    result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
+    expect(result.stdout).to match(/hue => '0'/)
+    expect(result.stdout).to match(/on  => 'true'/)
   end
 
-#  it 'turn the light on and change color' do
-#    pp = <<-EOS
-#hue_light { '1':
-#  on  => 'true',
-#  hue => '0',
-#}
-#EOS
-#    apply_manifest(pp, :catch_failures => true)
-#    apply_manifest(pp, :catch_failures => true)
-#  end
-#
+  it 'should set the hue to blue' do
+    pp = <<-EOS
+hue_light { '1':
+  hue => '46920',
+}
+EOS
+    Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
+    result = Beaker::TestmodeSwitcher::DSL.execute_manifest(pp, beaker_opts)
+    # check puppet resource
+    result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
+    expect(result.stdout).to match(/hue => '46920'/)
+  end
 end
