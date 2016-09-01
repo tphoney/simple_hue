@@ -8,12 +8,13 @@ group :acceptance do
   gem 'pry'
   gem 'faraday'
   gem 'puppetlabs_spec_helper'
-  gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 3.8.0'
+  gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 4.0.0'
   gem 'facter', '>= 2.0'
   gem 'rspec-puppet', :git => 'https://github.com/rodjek/rspec-puppet.git'
   gem "beaker-testmode_switcher"
   gem 'beaker'
   gem 'master_manipulator'
   gem 'beaker-rspec'
+  gem 'metadata-json-lint'
 end
 
