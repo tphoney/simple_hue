@@ -28,10 +28,10 @@ RSpec.configure do |c|
           on(host, 'apt-get install -y vim')
           on(host, 'gem install faraday')
           on(host, 'gem install pry')
-        on(host, "echo HUE_KEY=#{hue_key} >> /root/.bashrc")
-        on(host, "echo HUE_IP=#{hue_ip} >>  /root/.bashrc")
-        on(host, "source  /root/.bashrc")
-        on(host, ".  /root/.bashrc")
+          on(host, "echo HUE_KEY=#{hue_key} >> /root/.bashrc")
+          on(host, "echo HUE_IP=#{hue_ip} >>  /root/.bashrc")
+          on(host, "source  /root/.bashrc")
+          on(host, ".  /root/.bashrc")
         end
       end
 
