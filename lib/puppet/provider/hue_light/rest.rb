@@ -8,7 +8,7 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
 
   def self.instances
     instances = []
-    lights = Puppet::Provider::Hue.call('lights')
+    lights = Puppet::Provider::Hue.hue_get('lights')
 
     return [] if lights.nil?
 
@@ -26,7 +26,7 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
     @property_hash = @property_hash.reject { |k, _v| !resource[k] }
     @property_hash.delete(:name)
     @property_hash[:hue] = @property_hash[:hue].to_i
-    result = Puppet::Provider::Hue.put("lights/#{name}/state", @property_hash)
+    result = Puppet::Provider::Hue.hue_put("lights/#{name}/state", @property_hash)
   end
 
   def create

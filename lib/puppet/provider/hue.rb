@@ -29,32 +29,19 @@ class Puppet::Provider::Hue < Puppet::Provider
 
   def self.connection
     if ENV['HUE_IP'].nil?
-      hue_ip = '10.64.12.130'
+      raise('HUE_IP environment variable is not set, set using \'export HUE_IP=1.1.1.1\' where 1.1.1.1 is the ip of your hue hub')
     else
       hue_ip = ENV['HUE_IP']
     end
     if ENV['HUE_KEY'].nil?
-      hue_key = 'FuTWCAwnFqxVSza243gcP-g71U1jZZAeg-iXyH3v'
+      raise('HUE_KEY environment variable is not set, set using \'export HUE_KEY=key_thing\' where key_thing is a developer key for your hue hub')
     else
       hue_key = ENV['HUE_KEY']
     end
-    @connection = Faraday.new(:url => "http://#{hue_ip}/api/#{hue_key}", :ssl => { :verify => false }) do |builder|
-    #@connection = Faraday.new(:url => 'http://192.168.0.2/api/AVsa-nKtZOlssVKhBwM9MBVTVVUo11nSsGQPIm55', :ssl => { :verify => false }) do |builder|
-      builder.request :retry,         :max => 10,
-                                      :interval            => 0.05,
-                                      :interval_randomness => 0.5,
-                                      :backoff_factor      => 2,
-                                      :exceptions          => [
-                                        Faraday::Error::TimeoutError,
-                                        Faraday::ConnectionFailed,
-                                        Errno::ETIMEDOUT,
-                                        'Timeout::Error',
-                                      ]
-      builder.adapter :net_http
-    end
+    @connection = Faraday.new(:url => "http://#{hue_ip}/api/#{hue_key}", :ssl => { :verify => false })
   end
 
-  def self.call(url, args = nil)
+  def self.hue_get(url, args = nil)
     url = URI.escape(url) if url
     result = connection.get(url, args)
     output = JSON.parse(result.body)
@@ -62,7 +49,7 @@ class Puppet::Provider::Hue < Puppet::Provider
     return nil
   end
 
-  def self.put(url, message)
+  def self.hue_put(url, message)
     message = message.to_json
     message.gsub!(/"false"/, 'false')
     message.gsub!(/"true"/, 'true')
