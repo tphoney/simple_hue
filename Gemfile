@@ -5,6 +5,7 @@ gem 'rubocop'
 group :acceptance do
   gem 'beaker-puppet_install_helper'
   gem 'rake'
+  gem 'rototiller', '0.1.0'
   gem 'pry'
   gem 'faraday'
   gem 'puppetlabs_spec_helper'

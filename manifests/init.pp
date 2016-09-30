@@ -1,4 +1,4 @@
 # no need for anything here 
-class hue {
+class simple_hue {
 
 }

@@ -3,3 +3,4 @@ log/
 .vagrant/
 .bundle/
 pkg/
+spec/fixtures

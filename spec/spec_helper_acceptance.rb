@@ -28,8 +28,8 @@ RSpec.configure do |c|
           on(host, 'apt-get install -y vim')
           on(host, 'gem install faraday')
           on(host, 'gem install pry')
-          on(host, "echo HUE_KEY=#{hue_key} >> /root/.bashrc")
-          on(host, "echo HUE_IP=#{hue_ip} >>  /root/.bashrc")
+          on(host, "echo export HUE_KEY=#{hue_key} >> /root/.bashrc")
+          on(host, "echo export HUE_IP=#{hue_ip} >>  /root/.bashrc")
           on(host, "source  /root/.bashrc")
           on(host, ".  /root/.bashrc")
         end
@@ -39,7 +39,7 @@ RSpec.configure do |c|
       hosts.each do |host|
         install_dev_puppet_module_on(host, :source => proj_root, :module_name => 'hue', :target_module_path => '/etc/puppet/modules')
         on(host, "whoami; pwd; echo $HUE_IP")
-        apply_manifest("include hue")
+        on(host, "sed -i '/templatedir/d' /etc/puppet/puppet.conf")
       end
     end
 
