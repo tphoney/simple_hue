@@ -58,10 +58,21 @@ puppet resource hue_light
 - Followed this API guide: http://www.developers.meethue.com/documentation/lights-api#11_get_all_lights
 
 ## Limitations
-There are no known limitations. Currently only tested on Ubuntu.
+There are no known limitations. Currently only tested on Ubuntu, developed on the mac.
 
 ## Development
 This is a simple module designed for teaching, this is not the place for new features. Fixes or improvements to hat is already here, are welcome.
+
+### Running the acceptance tests
+- Get virtual box installed
+- Get vagrant installed
+- clone the repo 'git@github.com:tphoney/simple_hue.git'
+- grab the necessary gems 'bundle install --path .bundle/gems/'
+- run 'bundle exec rake acceptance' and set the necessary environment variables
+- profit !!!
+
+### Stopping the VM from dissapearing when the tests run
+- alternately run 'BEAKER_provision=yes BEAKER_destroy=no bundle exec rspec spec/acceptance' NB make sure the environment variables are set
 
 ## Feedback
 Feel free to leave issues or PR's on the github page.
