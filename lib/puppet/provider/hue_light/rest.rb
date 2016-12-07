@@ -15,6 +15,7 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
     lights.each do |light|
       instances << new(:name => light.first,
                        :on => light.last['state']['on'].to_s,
+                       :bri => light.last['state']['bri'].to_s,
                        :hue => light.last['state']['hue'].to_s)
     end
 
@@ -26,7 +27,8 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
     @property_hash = @property_hash.reject { |k, _v| !resource[k] }
     @property_hash.delete(:name)
     @property_hash[:hue] = @property_hash[:hue].to_i
-    result = Puppet::Provider::Hue.hue_put("lights/#{name}/state", @property_hash)
+    @property_hash[:bri] = @property_hash[:bri].to_i
+    Puppet::Provider::Hue.hue_put("lights/#{name}/state", @property_hash)
   end
 
   def create

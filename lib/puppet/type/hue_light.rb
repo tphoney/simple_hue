@@ -11,4 +11,7 @@ Puppet::Type.newtype(:hue_light) do
   newproperty(:hue) do
     desc 'hue of the hue_light'
   end
+  newproperty(:bri) do
+    desc 'brightness of the hue_light'
+  end
 end

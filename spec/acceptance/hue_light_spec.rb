@@ -1,11 +1,9 @@
 require 'spec_helper_acceptance'
-hue_ip = ENV['HUE_IP']
-hue_key = ENV['HUE_KEY']
-
 describe 'should change the hue_light' do
   it 'turn the light on and set hue to red' do
     pp = <<-EOS
 hue_light { '1':
+  bri => '254',
   hue => '0',
   on  => 'true',
 }
@@ -18,6 +16,7 @@ EOS
     # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
     expect(result.stdout).to match(/hue => '0'/)
+    expect(result.stdout).to match(/bri => '254'/)
     expect(result.stdout).to match(/on  => 'true'/)
   end
 
