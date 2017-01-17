@@ -23,6 +23,7 @@ EOS
   it 'should set the hue to blue' do
     pp = <<-EOS
 hue_light { '1':
+  bri => '254',
   hue => '46920',
 }
 EOS
@@ -33,6 +34,7 @@ EOS
 
     # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
+    expect(result.stdout).to match(/bri => '254'/)
     expect(result.stdout).to match(/hue => '46920'/)
   end
 end
