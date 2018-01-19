@@ -53,7 +53,6 @@ def color(ip, bulb_number, key, color)
   else
     hue = color.to_i
   end
-  binding.pry
   message = { "hue" => hue}
 
   send_command(ip, url, key, message)
