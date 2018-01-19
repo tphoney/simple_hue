@@ -24,21 +24,53 @@ end
 
 def color(ip, bulb_number, key, color)
   url = "lights/#{bulb_number}/state"
+  if bulb_number == -1
+    url= "groups/2/action"
+  end
+
   if color == 'red'
     hue = 0
   elsif color == 'blue'
     hue = 46920
   elsif color == 'green'
-    hue = 46920
+    hue = 25500
+  elsif color == 'pink'
+    hue = 56100
+  elsif color == 'yellow'
+    hue = 12750
+
+
+  elsif color == 'cycle'
+    hues = [0 , 46920 , 25500 , 56100 , 12750]
+    hues.each do |hue|
+      message = { "hue" => hue }
+      send_command(ip, url, key, message)
+      sleep(5)
+    end
+    if hue.nil?
+      return
+    end
   else
     hue = color.to_i
   end
-  message = { "hue" => hue }
+  binding.pry
+  message = { "hue" => hue}
+
   send_command(ip, url, key, message)
 end
 
+
 def brightness(ip, bulb_number, key, brightness)
-  #TODO: Complete this function
+  url = "lights/#{bulb_number}/state"
+  if brightness == 'high'
+    bri = 200
+  elsif brightness == 'dim'
+    bri = 75
+  else
+    bri = 100
+  end
+  message = {"bri" => bri}
+  send_command(ip, url, key, message)
 end
 
 parser = OptionParser.new do |opts|
@@ -53,36 +85,48 @@ parser = OptionParser.new do |opts|
 
 end
 
-parser.parse!
-if options.empty?
-  puts parser
-  exit
-end
+  parser.parse!
+  if options.empty?
+    puts parser
+    exit
+  end
 
-if options[:ip].nil?
-  puts "ERROR: No IP Address specified."
-  puts "Use --help to find info on command line arguments."
-  exit
-end
+  if options[:ip].nil?
+    puts "ERROR: No IP Address specified."
+    puts "Use --help to find info on command line arguments."
+    exit
+  end
 
-if options[:key].nil?
-  puts "ERROR: No API Key specified."
-  puts "Use --help to find info on command line arguments."
-  exit
-end
+  if options[:key].nil?
+    puts "ERROR: No API Key specified."
+    puts "Use --help to find info on command line arguments."
+    exit
+  end
 
-if options[:bulb_number].nil?
-  puts "ERROR: No bulb number specified."
-  puts "Use --help to find info on command line arguments."
-  exit
-end
 
-if options[:alert]
-  alert(options[:ip], options[:bulb_number], options[:key])
-end
-if options[:color]
-  color(options[:ip], options[:bulb_number], options[:key], options[:color])
-end
-if options[:brightness]
-  brightness(options[:ip], options[:bulb_number], options[:key], options[:brightness])
-end
+
+  if options[:bulb_number].nil?
+
+    options[:bulb_number]= -1
+  end
+
+  if options[:bulb_number].nil?
+    puts "ERROR: No bulb number specified."
+    puts "Use --help to find info on command line arguments."
+    exit
+  end
+
+
+  if options[:alert]
+    alert(options[:ip], options[:bulb_number], options[:key])
+  end
+  if options[:color]
+    color(options[:ip], options[:bulb_number], options[:key], options[:color])
+  end
+  if options[:brightness]
+    brightness(options[:ip], options[:bulb_number], options[:key], options[:brightness])
+  end
+
+  if options[:state]
+    state(options[:ip], options[:bulb_number], options[:key])
+  end
