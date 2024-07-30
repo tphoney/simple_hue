@@ -1,8 +1,8 @@
 require 'puppet/provider/hue'
 
-Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) do
-  confine :feature => :posix
-  defaultfor :feature => :posix
+Puppet::Type.type(:hue_light).provide(:rest, parent: Puppet::Provider::Hue) do
+  confine feature: :posix
+  defaultfor feature: :posix
 
   mk_resource_methods
 
@@ -13,11 +13,11 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
     return [] if lights.nil?
 
     lights.each do |light|
-      instances << new(:name => light.first,
-                       :on => light.last['state']['on'].to_s,
-                       :bri => light.last['state']['bri'].to_s,
-                       :effect => light.last['state']['effect'].to_s,
-                       :hue => light.last['state']['hue'].to_s)
+      instances << new(name: light.first,
+                       on: light.last['state']['on'].to_s,
+                       bri: light.last['state']['bri'].to_s,
+                       effect: light.last['state']['effect'].to_s,
+                       hue: light.last['state']['hue'].to_s)
     end
 
     instances
@@ -25,7 +25,7 @@ Puppet::Type.type(:hue_light).provide(:rest, :parent => Puppet::Provider::Hue) d
 
   def flush
     name = @original_values[:name]
-    @property_hash = @property_hash.reject { |k, _v| !resource[k] }
+    @property_hash = @property_hash.select { |k, _v| resource[k] }
     @property_hash.delete(:name)
     @property_hash[:hue] = @property_hash[:hue].to_i
     @property_hash[:bri] = @property_hash[:bri].to_i

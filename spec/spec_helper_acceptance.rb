@@ -37,7 +37,7 @@ RSpec.configure do |c|
 
       proj_root = File.expand_path(File.join(File.dirname(__FILE__), '..'))
       hosts.each do |host|
-        install_dev_puppet_module_on(host, :source => proj_root, :module_name => 'hue', :target_module_path => '/etc/puppetlabs/code/modules')
+        install_dev_puppet_module_on(host, source: proj_root, module_name: 'hue', target_module_path: '/etc/puppetlabs/code/modules')
         on(host, "whoami; pwd; echo #{hue_ip}")
       end
     end

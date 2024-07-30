@@ -15,12 +15,12 @@ EOS
 
     # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
-    expect(result.stdout).to match(/hue => '0'/)
-    expect(result.stdout).to match(/bri => '254'/)
-    expect(result.stdout).to match(/on  => 'true'/)
+    expect(result.stdout).to match(%r{hue => '0'})
+    expect(result.stdout).to match(%r{bri => '254'})
+    expect(result.stdout).to match(%r{on  => 'true'})
   end
 
-  it 'should set the hue to blue' do
+  it 'sets the hue to blue' do
     pp = <<-EOS
 hue_light { '1':
   bri => '254',
@@ -34,7 +34,7 @@ EOS
 
     # Check puppet resource
     result = Beaker::TestmodeSwitcher::DSL.resource('hue_light', '1', beaker_opts)
-    expect(result.stdout).to match(/bri => '254'/)
-    expect(result.stdout).to match(/hue => '46920'/)
+    match(%r{bri => '254'})
+    expect(result.stdout).to match(%r{hue => '46920'})
   end
 end
