@@ -1,21 +1,14 @@
 {
   "name": "tphoney-simple_hue",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "tphoney",
   "summary": "A puppet module that controls the philips hue. It is designed for teaching purposes.",
   "license": "Apache-2.0",
   "source": "https://github.com/tphoney/simple_hue",
   "project_page": "https://github.com/tphoney/simple_hue",
   "issues_url": "https://github.com/tphoney/simple_hue/issues",
-  "tags": [
-    "simple_hue",
-    "philips",
-    "hue",
-    "learning module",
-    "example module",
-    "IOT",
-    "REST",
-    "JSON"
+  "dependencies": [
+
   ],
   "operatingsystem_support": [
     {
@@ -33,7 +26,17 @@
       "version_requirement": ">=4.0.0 <5.0.0"
     }
   ],
-  "dependencies": [
-  
-  ]
+  "tags": [
+    "simple_hue",
+    "philips",
+    "hue",
+    "learning module",
+    "example module",
+    "IOT",
+    "REST",
+    "JSON"
+  ],
+  "pdk-version": "3.2.0",
+  "template-url": "pdk-default#3.2.0",
+  "template-ref": "tags/3.2.0-0-gb257ef1"
 }
